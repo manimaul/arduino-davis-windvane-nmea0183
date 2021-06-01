@@ -20,8 +20,10 @@ public:
      *         |  |__________ Reference, R = Relative, T = True
      *         |_____________ Wind Angle, 0 to 359 degrees
      */
-    void writeMwv(long direction, int kts) {
-        sprintf(bodyBuffer, "WIMWV,%li.0,R,%i.0,N,A", direction, kts);
+    void writeMwv(long direction, int ktsX10) {
+        auto kts = (int) ktsX10 / 10;
+        auto ktsDec = (int) (ktsX10 - (kts * 10));
+        sprintf(bodyBuffer, "WIMWV,%li.0,R,%i.%i,N,A", direction, kts, ktsDec);
         checksum();
         Serial.print(sentenceBuffer);
     }

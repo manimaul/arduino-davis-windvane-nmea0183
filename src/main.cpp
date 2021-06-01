@@ -21,7 +21,7 @@ void rotation() {
  */
 void setup() {
     Serial.begin(4800);
-    pinMode(7, INPUT_PULLUP);
+    pinMode(7, INPUT_PULLUP); // use built in pull-up resistor
     auto iu = digitalPinToInterrupt(7);
     attachInterrupt(iu, rotation, FALLING);
     sei();
@@ -29,8 +29,8 @@ void setup() {
 
 void loop() {
     if (timer.tick(250)) {
-        auto kts = speedMeter.tick();
+        auto ktsX10 = speedMeter.tick();
         auto direction = map(analogRead(A4), 0, 1023, 0, 360);
-        nmea.writeMwv(direction, kts);
+        nmea.writeMwv(direction, ktsX10);
     }
 }
